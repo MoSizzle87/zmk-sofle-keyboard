@@ -153,8 +153,8 @@ layers:
   - {t: '$$mdi:menu-down$$', s: '$$mdi:mouse$$'}
   - '{'
   - '}'
-  - LCBR
-  - RCBR
+  - {t: '[', s: '{'}
+  - {t: ']', s: '}'}
   - {t: /, s: '?'}
   - {t: \, s: '|'}
   - {t: '$$mdi:transfer$$', type: trans}
