@@ -1,9 +1,8 @@
 // ============================================================================
-// ZMK Keymap avec Tap-Dance sur M1/M2
+// ZMK Keymap avec Tap-Dance sur M1/M2 + Triple-tap ALT pour SYS
 // - M1 tap = toggle NAV, hold = momentary NAV
 // - M2 tap = toggle CODE, hold = momentary CODE
-// - CAPS (BASE) = Cmd+Space (Raycast/Spotlight)
-// - Tri-layer: NAV + CODE => SYS
+// - LEFT_ALT triple-tap (depuis NAV ou CODE) = toggle SYS
 // ============================================================================
 
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 1200
@@ -26,8 +25,9 @@
 &mmv { time-to-max-speed-ms = <500>; acceleration-exponent = <1>; trigger-period-ms = <16>; };
 
 / {
-  // Comportements hold-tap pour M1 et M2
+  // Comportements
   behaviors {
+    // Hold-tap pour M1
     m1_nav: m1_nav {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
@@ -37,6 +37,7 @@
       bindings = <&mo>, <&tog>;
     };
     
+    // Hold-tap pour M2
     m2_code: m2_code {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
@@ -44,6 +45,14 @@
       tapping-term-ms = <200>;
       quick-tap-ms = <175>;
       bindings = <&mo>, <&tog>;
+    };
+
+    // Triple-tap sur LEFT_ALT pour activer SYS (uniquement dans NAV et CODE)
+    td_alt_sys: td_alt_sys {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <200>;
+      bindings = <&kp LEFT_ALT>, <&kp LEFT_ALT>, <&tog 3>;
     };
   };
 
@@ -53,12 +62,6 @@
     #sensor-binding-cells = <0>;
     bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
     tap-ms = <100>;
-  };
-
-  // Tri-layer: NAV + CODE => SYS
-  conditional_layers {
-    compatible = "zmk,conditional-layers";
-    tri_layer { if-layers = <1 2>; then-layer = <3>; };
   };
 
   // KEYMAP
@@ -85,7 +88,7 @@
 &trans      &kp GRAVE     &trans         &trans         &trans          &trans           &mmv MOVE_DOWN   &kp HOME      &kp PG_DN     &kp PG_UP     &kp END       &kp MINUS     &kp EQUAL
 &kp CAPS    &kp LG(LEFT)  &kp LG(DOWN)   &kp LG(UP)     &kp LG(RIGHT)   &trans           &mmv MOVE_LEFT   &kp LEFT      &kp DOWN      &kp UP        &kp RIGHT     &trans        &trans
 &kp LSHFT   &kp LG(Z)     &kp LG(X)      &kp LG(C)      &kp LG(V)       &kp LG(LS(Z))    &mmv MOVE_RIGHT  &kp DEL       &kp BACKSPACE &kp INS       &kp F12       &trans        &trans
-&kp C_MUTE  &trans        &trans         &trans         &trans          &trans           &trans           &trans        &trans        &trans        &trans        &trans
+&kp C_MUTE  &trans        &td_alt_sys    &trans         &trans          &trans           &trans           &trans        &trans        &trans        &trans        &trans
       >;
       display-name = "NAV";
       sensor-bindings = <&scroll_encoder>;
@@ -94,11 +97,11 @@
     // ===== CODE =====
     CODE {
       bindings = <
-&kp TILDE   &kp EXCL     &kp AT          &kp HASH       &kp DOLLAR      &kp PERCENT     &mmv MOVE_UP     &kp CARET     &kp AMPS      &kp ASTERISK      &kp LPAR          &kp RPAR   &kp PIPE
+&kp ESC     &kp EXCL     &kp AT          &kp HASH       &kp DOLLAR      &kp PERCENT     &mmv MOVE_UP     &kp CARET     &kp AMPS      &kp ASTERISK      &kp LPAR          &kp RPAR   &kp PIPE
 &trans      &kp MINUS    &kp EQUAL       &kp UNDER      &kp PLUS        &kp GRAVE       &mmv MOVE_DOWN   &kp LBRC      &kp RBRC      &kp LEFT_BRACKET  &kp RIGHT_BRACKET &kp SLASH  &kp BSLH
 &trans      &kp LT       &kp GT          &kp COLON      &kp SEMI        &kp COMMA       &mmv MOVE_LEFT   &kp DOT       &kp QMARK     &kp EXCL          &kp PLUS          &kp MINUS  &kp EQUAL
 &trans      &trans       &trans          &trans         &trans          &trans          &mmv MOVE_RIGHT  &kp SQT       &kp DQT       &trans            &kp F12           &trans     &trans
-&trans      &trans       &trans          &trans         &trans          &trans          &trans           &trans        &trans        &trans            &trans            &trans
+&trans      &trans       &td_alt_sys     &trans         &trans          &trans          &trans           &trans        &trans        &trans            &trans            &trans
       >;
       display-name = "CODE";
       sensor-bindings = <&scroll_encoder>;
@@ -107,11 +110,11 @@
     // ===== SYS =====
     SYS {
       bindings = <
-&bt BT_SEL 0  &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3  &bt BT_SEL 4  &trans  &trans  &trans  &trans  &trans      &trans      &trans       &trans
+&kp ESC       &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3  &bt BT_SEL 4  &trans  &trans  &trans  &trans  &trans      &trans      &trans       &trans
 &trans        &bt BT_CLR      &bt BT_CLR_ALL  &trans        &trans        &trans  &trans  &trans  &trans  &trans      &trans      &trans       &trans
 &trans        &out OUT_USB    &out OUT_BLE    &trans        &trans        &trans  &trans  &trans  &trans  &trans      &trans      &trans       &trans
 &trans        &sys_reset      &trans          &bootloader   &trans        &trans  &trans  &trans  &trans  &sys_reset  &soft_off   &bootloader  &trans
-&trans        &trans          &trans          &trans        &trans        &trans  &trans  &trans  &trans  &trans      &trans      &trans
+&trans        &trans          &td_alt_sys     &trans        &trans        &trans  &trans  &trans  &trans  &trans      &trans      &trans
       >;
       display-name = "SYS";
       sensor-bindings = <&scroll_encoder>;
