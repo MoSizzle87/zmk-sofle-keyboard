@@ -158,8 +158,8 @@ layers:
   - {t: /, s: '?'}
   - {t: \, s: '|'}
   - {t: '$$mdi:transfer$$', type: trans}
-  - LESS
-  - GREATER
+  - <
+  - '>'
   - ':'
   - {t: ;, s: ':'}
   - {t: ',', s: <}
