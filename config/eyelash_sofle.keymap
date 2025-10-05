@@ -1,8 +1,9 @@
 // ============================================================================
-// 💻 ZMK Keymap Configuration – Programmation & Ergonomie (macOS)
-// M1 et M2 : Hold = Momentary | Double-tap = Toggle
-// CAPS (BASE) = Raycast/Spotlight (Cmd+Space)
-// Layers : BASE, NAV(1), CODE(2), SYS(3). NAV+CODE => SYS (tri-layer)
+// ZMK Keymap – Version simple (momentary layers)
+// - M1 = &mo 1 (NAV momentary)
+// - M2 = &mo 2 (CODE momentary)
+// - CAPS (BASE) = Cmd+Space (Raycast/Spotlight)
+// - Tri-layer: NAV + CODE => SYS
 // ============================================================================
 
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 1200
@@ -18,7 +19,6 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/outputs.h>
 
-// Comportement souris
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
 
@@ -40,31 +40,7 @@
     tri_layer { if-layers = <1 2>; then-layer = <3>; };
   };
 
-  // ------------------------------------------------------------------------
-  // Behaviors Tap Dance pour M1/M2
-  // Tap simple = momentary, Hold = momentary, Double-tap = toggle
-  // ------------------------------------------------------------------------
-  behaviors {
-    m1_nav_td: m1_nav_td {
-      compatible = "zmk,behavior-tap-dance";
-      label = "M1_NAV_TD";
-      #binding-cells = <0>;
-      tapping-term-ms = <200>;
-      bindings = <&mo 1>, <&tog 1>;
-    };
-
-    m2_code_td: m2_code_td {
-      compatible = "zmk,behavior-tap-dance";
-      label = "M2_CODE_TD";
-      #binding-cells = <0>;
-      tapping-term-ms = <200>;
-      bindings = <&mo 2>, <&tog 2>;
-    };
-  };
-
-  // ------------------------------------------------------------------------
   // KEYMAP
-  // ------------------------------------------------------------------------
   keymap {
     compatible = "zmk,keymap";
 
@@ -75,7 +51,7 @@
 &kp TAB        &kp Q      &kp W         &kp E         &kp R        &kp T      &kp DOWN       &kp Y      &kp U      &kp I      &kp O       &kp P      &kp BSLH
 &kp LG(SPACE)  &kp A      &kp S         &kp D         &kp F        &kp G      &kp LEFT       &kp H      &kp J      &kp K      &kp L       &kp SEMI   &kp APOS
 &kp LSHFT      &kp Z      &kp X         &kp C         &kp V        &kp B      &kp RIGHT      &kp N      &kp M      &kp COMMA  &kp DOT     &kp FSLH   &kp EQUAL
-&kp C_MUTE     &kp LCTRL  &kp LEFT_ALT  &kp LEFT_GUI  &m1_nav_td   &kp ENTER  &kp ENTER      &kp SPACE  &kp MINUS  &kp RSHFT  &m2_code_td &kp DELETE
+&kp C_MUTE     &kp LCTRL  &kp LEFT_ALT  &kp LEFT_GUI  &mo 1        &kp ENTER  &kp ENTER      &kp SPACE  &kp MINUS  &kp RSHFT  &mo 2       &kp DELETE
       >;
       sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOL_DN>;
       display-name = "BASE";
@@ -86,7 +62,7 @@
       bindings = <
 &kp ESC     &kp F1        &kp F2         &kp F3         &kp F4          &kp F5           &mmv MOVE_UP     &kp F6        &kp F7        &kp F8        &kp F9        &kp F10       &kp F11
 &trans      &kp GRAVE     &trans         &trans         &trans          &trans           &mmv MOVE_DOWN   &kp HOME      &kp PG_DN     &kp PG_UP     &kp END       &kp MINUS     &kp EQUAL
-&trans      &kp LG(LEFT)  &kp LG(DOWN)   &kp LG(UP)     &kp LG(RIGHT)   &trans           &mmv MOVE_LEFT   &kp LEFT      &kp DOWN      &kp UP        &kp RIGHT     &trans        &trans
+&kp CAPS    &kp LG(LEFT)  &kp LG(DOWN)   &kp LG(UP)     &kp LG(RIGHT)   &trans           &mmv MOVE_LEFT   &kp LEFT      &kp DOWN      &kp UP        &kp RIGHT     &trans        &trans
 &kp LSHFT   &kp LG(Z)     &kp LG(X)      &kp LG(C)      &kp LG(V)       &kp LG(LS(Z))    &mmv MOVE_RIGHT  &kp DEL       &kp BACKSPACE &kp INS       &kp F12       &trans        &trans
 &kp C_MUTE  &trans        &trans         &trans         &trans          &trans           &trans           &trans        &trans        &trans        &trans        &trans
       >;
