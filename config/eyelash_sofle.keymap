@@ -76,7 +76,7 @@
 &kp TILDE   &kp EXCL     &kp AT          &kp HASH       &kp DOLLAR      &kp PERCENT     &mmv MOVE_UP     &kp CARET     &kp AMPS      &kp ASTERISK      &kp LPAR          &kp RPAR   &kp PIPE
 &trans      &kp MINUS    &kp EQUAL       &kp UNDER      &kp PLUS        &kp GRAVE       &mmv MOVE_DOWN   &kp LBRC      &kp RBRC      &kp LEFT_BRACKET  &kp RIGHT_BRACKET &kp SLASH  &kp BSLH
 &trans      &kp LESS     &kp GREATER     &kp COLON      &kp SEMI        &kp COMMA       &mmv MOVE_LEFT   &kp DOT       &kp QMARK     &kp EXCL          &kp PLUS          &kp MINUS  &kp EQUAL
-&trans      &trans       &trans          &trans         &trans          &trans          &mmv MOVE_RIGHT  &kp QUOTE     &kp DQT       &trans            &kp F12           &trans     &trans
+&trans      &trans       &trans          &trans         &trans          &trans          &mmv MOVE_RIGHT  &kp SQT       &kp DQT       &trans            &kp F12           &trans     &trans
 &trans      &trans       &trans          &trans         &trans          &trans          &trans           &trans        &trans        &trans            &trans            &trans
       >;
       display-name = "CODE";
